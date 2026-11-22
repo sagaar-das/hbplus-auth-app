@@ -1,98 +1,192 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+import React from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  useWindowDimensions,
+  StatusBar,
+} from "react-native";
 
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
+export default function LoginScreen() {
+  
+  const { width } = useWindowDimensions();
+
+  
+  const isMobile = width < 600;
+
   return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
+    <View style={styles.container}>
+      <StatusBar barStyle="dark-content" />
 
-export default function HomeScreen() {
-  return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
+      <View
+        style={[
+          styles.loginCard,
+          isMobile && styles.mobileCard,
+        ]}
+      >
+        
+        <View style={styles.logoContainer}>
+          <Text style={styles.logoText}>HB+</Text>
+        </View>
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
+       
+        <Text style={styles.title}>
+          Welcome to HBPlus
+        </Text>
 
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
+        <Text style={styles.subtitle}>
+          Sign in with your official company account
+          to access your employee dashboard.
+        </Text>
 
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
+       
+        <Pressable
+          style={styles.googleButton}
+          onPress={() => {
+            console.log("Google Login clicked");
+          }}
+        >
+          <Text style={styles.googleIcon}>G</Text>
+
+          <Text style={styles.buttonText}>
+            Continue with Google
+          </Text>
+        </Pressable>
+
+        
+        <View style={styles.infoBox}>
+          <Text style={styles.infoTitle}>
+            Official account required
+          </Text>
+
+          <Text style={styles.infoText}>
+            Only employees using an @hbplus.fit
+            email address can access this application.
+          </Text>
+        </View>
+
+        
+        <Text style={styles.footer}>
+          Secure Employee Portal • HBPlus
+        </Text>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
+    backgroundColor: "#F3F6FC",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
   },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
+
+  loginCard: {
+    width: "100%",
+    maxWidth: 440,
+    backgroundColor: "#FFFFFF",
+    padding: 40,
+    borderRadius: 20,
+    alignItems: "center",
+
+    // Card shadow
+    elevation: 5,
+    shadowColor: "#000000",
+    shadowOpacity: 0.08,
+    shadowRadius: 20,
+    shadowOffset: { width: 0, height: 5 },
   },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
+
+  mobileCard: {
+    padding: 25,
   },
+
+  logoContainer: {
+    width: 65,
+    height: 65,
+    borderRadius: 18,
+    backgroundColor: "#E9EEFF",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 25,
+  },
+
+  logoText: {
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "#3457D5",
+  },
+
   title: {
-    textAlign: 'center',
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "#172554",
+    marginBottom: 12,
+    textAlign: "center",
   },
-  code: {
-    textTransform: 'uppercase',
+
+  subtitle: {
+    fontSize: 15,
+    color: "#64748B",
+    lineHeight: 23,
+    textAlign: "center",
+    marginBottom: 30,
   },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
+
+  googleButton: {
+    width: "100%",
+    height: 54,
+    borderWidth: 1,
+    borderColor: "#DCE2EB",
+    borderRadius: 10,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 12,
+    backgroundColor: "#FFFFFF",
+  },
+
+  googleIcon: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#4285F4",
+  },
+
+  buttonText: {
+    fontSize: 15,
+    fontWeight: "600",
+    color: "#263449",
+  },
+
+  infoBox: {
+    width: "100%",
+    backgroundColor: "#F0F5FF",
+    padding: 16,
+    borderRadius: 10,
+    marginTop: 25,
+  },
+
+  infoTitle: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#2546A8",
+    marginBottom: 6,
+  },
+
+  infoText: {
+    fontSize: 13,
+    color: "#52627A",
+    lineHeight: 20,
+  },
+
+  footer: {
+    fontSize: 12,
+    color: "#94A3B8",
+    marginTop: 30,
+    textAlign: "center",
   },
 });
