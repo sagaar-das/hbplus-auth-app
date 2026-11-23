@@ -1,5 +1,7 @@
 
-import React from "react";
+import GoogleLoginButton from "../components/GoogleLoginButton";
+
+import DomainNotice from "../components/DomainNotice";
 import {
   View,
   Text,
@@ -10,10 +12,10 @@ import {
 } from "react-native";
 
 export default function LoginScreen() {
-  
+
   const { width } = useWindowDimensions();
 
-  
+
   const isMobile = width < 600;
 
   return (
@@ -26,12 +28,12 @@ export default function LoginScreen() {
           isMobile && styles.mobileCard,
         ]}
       >
-        
+
         <View style={styles.logoContainer}>
           <Text style={styles.logoText}>HB+</Text>
         </View>
 
-       
+
         <Text style={styles.title}>
           Welcome to HBPlus
         </Text>
@@ -41,33 +43,17 @@ export default function LoginScreen() {
           to access your employee dashboard.
         </Text>
 
-       
-        <Pressable
-          style={styles.googleButton}
+
+        <GoogleLoginButton
           onPress={() => {
             console.log("Google Login clicked");
           }}
-        >
-          <Text style={styles.googleIcon}>G</Text>
+        />
 
-          <Text style={styles.buttonText}>
-            Continue with Google
-          </Text>
-        </Pressable>
 
-        
-        <View style={styles.infoBox}>
-          <Text style={styles.infoTitle}>
-            Official account required
-          </Text>
+        <DomainNotice />
 
-          <Text style={styles.infoText}>
-            Only employees using an @hbplus.fit
-            email address can access this application.
-          </Text>
-        </View>
 
-        
         <Text style={styles.footer}>
           Secure Employee Portal • HBPlus
         </Text>
@@ -137,24 +123,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
 
-  googleButton: {
-    width: "100%",
-    height: 54,
-    borderWidth: 1,
-    borderColor: "#DCE2EB",
-    borderRadius: 10,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 12,
-    backgroundColor: "#FFFFFF",
-  },
-
-  googleIcon: {
-    fontSize: 22,
-    fontWeight: "bold",
-    color: "#4285F4",
-  },
+  
 
   buttonText: {
     fontSize: 15,
